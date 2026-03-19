@@ -1,14 +1,14 @@
 #!/usr/bin/python3
-"""Script that fetches 10 hot posts for a given subreddit."""
+"""Module that queries the Reddit API and prints top 10 hot posts."""
 import requests
 
 
 def top_ten(subreddit):
-    """Print titles of top 10 hot posts of a subreddit."""
+    """Print titles of the first 10 hot posts of a subreddit."""
     headers = {
         'User-Agent': 'python:alu.reddit.api:v1.0 (by /u/demo_user)'
     }
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
 
     response = requests.get(url, headers=headers, allow_redirects=False)
 
@@ -16,7 +16,15 @@ def top_ten(subreddit):
         print(None)
         return
 
-    posts = response.json().get('data', {}).get('children', [])
+    try:
+        posts = response.json().get('data').get('children')
+    except Exception:
+        print(None)
+        return
+
+    if not posts:
+        print(None)
+        return
 
     for post in posts[:10]:
-        print(post.get('data', {}).get('title'))
+        print(post.get('data').get('title'))
