@@ -12,7 +12,6 @@ def top_ten(subreddit):
 
     response = requests.get(url, headers=headers, allow_redirects=False)
 
-    # ❗ KEY FIX: check BOTH status and redirect
     if response.status_code != 200:
         print(None)
         return
@@ -24,7 +23,6 @@ def top_ten(subreddit):
         print(None)
         return
 
-    # ❗ Ensure posts exist
     if not posts:
         print(None)
         return
