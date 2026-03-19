@@ -7,8 +7,8 @@ def top_ten(subreddit):
     """Return number of subscribers if @subreddit is valid subreddit.
     if not return 0."""
 
-    headers = {'User-Agent': 'MyAPI/0.0.1'}
-    subreddit_url = "https://reddit.com/r/{}/hot.json".format(subreddit)
+    headers = {'User-Agent': 'python:reddit.top_ten:v1.0 (by /u/Thompson)'}
+    subreddit_url = f"https://www.reddit.com/r/{subreddit}/hot.json"
     response = requests.get(subreddit_url, headers=headers)
 
     if response.status_code == 200:
