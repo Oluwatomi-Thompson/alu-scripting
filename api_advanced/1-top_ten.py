@@ -2,30 +2,33 @@
 """Module that queries the Reddit API and prints top 10 hot posts."""
 import requests
 
-
 def top_ten(subreddit):
     """Print titles of top 10 hot posts of a subreddit."""
+    # Use a highly specific user agent to bypass bot detection
     headers = {
-        'User-Agent': 'python:alu.reddit.api:v1.0 (by /u/demo_user)'
+        'User-Agent': 'linux:api_advanced_task_1:v1.0.0 (by /u/your_user)'
     }
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-
-    response = requests.get(url, headers=headers, allow_redirects=False)
-
-    if response.status_code != 200:
-        print(None)
-        return
+    # Using old.reddit.com is often more reliable for raw JSON access
+    url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(subreddit)
 
     try:
-        data = response.json()
-        posts = data.get('data', {}).get('children', [])
+        # allow_redirects=False is mandatory to catch invalid subreddits
+        response = requests.get(url, headers=headers, allow_redirects=False)
+        
+        # If status code is not 200, the subreddit is invalid or inaccessible
+        if response.status_code != 200:
+            print(None)
+            return
+
+        data = response.json().get('data', {})
+        children = data.get('children', [])
+
+        if not children:
+            print(None)
+            return
+
+        for post in children:
+            print(post.get('data', {}).get('title'))
+
     except Exception:
         print(None)
-        return
-
-    if not posts:
-        print(None)
-        return
-
-    for post in posts[:10]:
-        print(post.get('data', {}).get('title'))
