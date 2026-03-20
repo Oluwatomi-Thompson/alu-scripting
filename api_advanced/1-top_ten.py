@@ -7,9 +7,7 @@ def top_ten(subreddit):
     """Print titles of top 10 hot posts of a subreddit."""
     # Use a highly specific, unique User-Agent to bypass bot detection
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                      'AppleWebKit/537.36 (KHTML, like Gecko) '
-                      'Chrome/122.0.0.0 Safari/537.36'
+        'User-Agent': 'linux:api.advanced.project:v1.0.0 (by /u/your_user_here)'
     }
     url = "https://www.reddit.com{}/hot.json?limit=10".format(subreddit)
 
